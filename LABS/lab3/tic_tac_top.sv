@@ -1,3 +1,4 @@
+//THIS MUST BE THE TOP LEVEL ENTITY IN ORDER TO MAKE THE FPGA WORK CORRECTLY
 module tic_tac_top (
   input  logic[4:0] x_i,
   input  logic[4:0] o_i,
