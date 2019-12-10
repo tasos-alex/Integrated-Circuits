@@ -1,0 +1,69 @@
+module asksisi8(
+	input logic clk,
+	input logic [7:0] data,
+	input logic [7:0] left,
+	input logic [7:0] right,
+	output signed reg [8:0] out
+);
+
+
+logic [8:0] mid;
+signed reg [8:0] index;
+
+
+
+enum logic [3:0] {S0=4'b0000, S1=4'b0001, S2=4'b0010, S3=4'b0011,
+S4=4'b0100, S5=4'b0101,S6=4'b0110, S7=4'b0111, S8=4'b1000, WHILE=4'b1001,
+LOWER=4'b1010, GREATER=4'b1011} state;
+
+
+
+always_ff @(posedge clk) begin
+		case (state)
+			S0: state <= S1;
+			S1: begin
+			    left <= 0;
+			    right <= n-1;
+			    index <= -1;
+			    state <= WHILE;
+			end
+			S2: begin
+			    mid <= right + left;
+			    state <= S3;
+			end
+			S3: begin
+			    mid <= mid/2;
+          state <= S4
+			    end
+			end
+			S4: begin
+			    data <= array[mid];
+					state <= LOWER;
+			end
+			S5: begin
+			    left <= mid+1;
+					state <= WHILE;
+			end
+			S6: begin
+			    right <= mid-1;
+					state <= WHILE;
+			end
+			S7: begin
+			    index <= mid;
+					state <= WHILE;
+		  end
+			WHILE: begin
+			    if (left > right) state <= S8;
+					else state <= S2;
+			end
+			LOWER: begin
+			    if (data <= target) state <= S5;
+					else state <= GREATER;
+			end
+			GREATER: begin
+			    if (data > target) state <= S6;
+					else state <= S7;
+			end
+		endcase
+	end
+endmodule
